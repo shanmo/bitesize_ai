@@ -258,11 +258,18 @@ class TransformerPredictor(pl.LightningModule):
 class ReversePredictor(TransformerPredictor): 
 
     def _calculate_loss(self, batch, mode="train"): 
+        # inp_data shape is [128, 16]
         inp_data, labels = batch 
+        # inp_data shape [128, 16, 10]
         inp_data = F.one_hot(inp_data, num_classes=self.hparams.num_classes).float()
 
+        # preds shape [128, 16, 10]
         preds = self.forward(inp_data, add_positional_encoding=True)
         # view(-1) will reshape labels to 1D 
+        # eg preds.view(-1, preds.size(-1)) shape is [2048, 10]
+        # the 10 dim means the probabilities for each class 
+        # cross_entropy takes the probabilities as input and compares with labels 
+        # labels.view(-1) shape is [2048]
         loss = F.cross_entropy(preds.view(-1, preds.size(-1)), labels.view(-1))
         acc = (preds.argmax(dim=-1) == labels).float().mean()
 

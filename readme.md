@@ -4,4 +4,4 @@
 
 ## platform 
 
-- macbook air M1, which pytorch GPU support 
+- macbook air M1, with pytorch GPU support 
