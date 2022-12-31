@@ -1,5 +1,6 @@
 import torch 
-import from torch.utils.data as data 
+import torch.utils.data as data 
+from functools import partial
 
 class ReverseDataset(data.Dataset): 
     def __init__(self, num_categories, seq_len, size): 
@@ -13,7 +14,7 @@ class ReverseDataset(data.Dataset):
     def __len__(self): 
         return self.size 
 
-    def __get__item(self, idx): 
+    def __getitem__(self, idx): 
         inp_data = self.data[idx]
         labels = torch.flip(inp_data, dims=(0,))
         return inp_data, labels 
