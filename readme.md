@@ -5,3 +5,4 @@
 ## platform 
 
 - macbook air M1, with pytorch GPU support 
+
